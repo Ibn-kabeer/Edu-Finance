@@ -1,15 +1,13 @@
+import Group from "../assets/Group.png";
+
 const Header = () => {
-
-   return (
-   
+  return (
     <>
-    <div className="p-10">
-      <img src="src/assets/Group.png" alt="" />
-    </div>
+      <div className="p-10">
+        <img src={Group} alt="EduFinance Logo" />
+      </div>
     </>
-  
-   )
+  );
+};
 
-
-}
-export default Header
+export default Header;
