@@ -5,8 +5,8 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import countries from "world-countries";
 
-import Vector from "../assets/Vector.png";
-import UserImage from "../assets/user 1.png";
+import Vector from "../../assets/Vector.png";
+import UserImage from "../../assets/user 1.png";
 
 const EditProfile = () => {
 
