@@ -1,140 +1,195 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import * as yup from 'yup'
-import { useFormik } from 'formik';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { useFormik } from "formik";
+
+import WebImage from "../assets/Web Image.png";
 
 const signinFormSchema = yup.object().shape({
-  email: yup.string().email("Invalid email address").required("Email Field is required"),
-  password: yup.string().required("Password is required")
-})
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email Field is required"),
+
+  password: yup
+    .string()
+    .required("Password is required"),
+});
+
 function App() {
-  // State for form inputs
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const initialValues = {
     email: "",
-    password: ""
-  }
+    password: "",
+  };
 
-  const onSubmit = async (payload) => {
-    alert('login succuessful')
-    navigate('/signinbtn')
-  }
-  const { values, touched, handleChange, handleBlur, errors, handleSubmit} = 
-    useFormik({
-      initialValues,
-      validationSchema: signinFormSchema,
-      onSubmit
-    })
+  const onSubmit = async (values) => {
+    alert("Login successful");
+    navigate("/signinbtn");
+  };
+
+  const {
+    values,
+    touched,
+    handleChange,
+    handleBlur,
+    errors,
+    handleSubmit,
+  } = useFormik({
+    initialValues,
+    validationSchema: signinFormSchema,
+    onSubmit,
+  });
+
   const getError = (key) => {
     return touched[key] && errors[key];
-  }
-  // Handle form submission
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Log the form data (replace with actual API call in a real app)
-  //   console.log('Form submitted:', { email, password });
-  //   // Example API call (uncomment to use with a backend):
-  //   // fetch('/api/login', {
-  //   //   method: 'POST',
-  //   //   headers: { 'Content-Type': 'application/json' },
-  //   //   body: JSON.stringify({ email, password }),
-  //   // })
-  //   // .then(response => response.json())
-  //   // .then(data => console.log(data))
-  //   // .catch(error => console.error('Error:', error));
-  // };
+  };
 
   return (
-    <div className="w-[100%]">
-      {/* Centered Container for Image and Login Form */}
-      <div className="flex flex-col md:flex-row  bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Left Section: Image */}
-        <div className="md:w-1/2 h-[679px] ">
+    <div className="w-full h-screen overflow-hidden">
+      <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg h-full overflow-hidden">
+
+        {/* LEFT SECTION - IMAGE */}
+        <div className="md:w-1/2 h-full">
           <img
-            src="src/assets/Web Image.png" 
+            src={WebImage}
             alt="EduFinance Illustration"
-            className="w-full  object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
 
-        {/* Right Section: Login Form with Background Image */}
-        <div
-          className="md:w-1/2 w-full flex items-center justify-center p-10 bg-cover bg-center bg-slate-100 relative"
-        >
-          {/* Overlay to ensure form readability */}
-          <div className="absolute inset-0  opacity-50"></div>
-          {/* Login Form */}
+        {/* RIGHT SECTION */}
+        <div className="md:w-1/2 w-full h-full flex items-center justify-center p-10 bg-slate-100 relative">
+
+          {/* Overlay */}
+          <div className="absolute inset-0 opacity-50"></div>
+
+          {/* LOGIN FORM */}
           <div className="relative z-10 bg-white p-8 rounded-lg shadow-lg w-full max-w-sm text-center">
-            <h2 className="text-2xl text-gray-800 mb-5">Sign in</h2>
+
+            <h2 className="text-2xl text-gray-800 mb-5">
+              Sign in
+            </h2>
+
             <form onSubmit={handleSubmit}>
-              <div className="mb-5 text-left">
-                <label htmlFor="email" className="block text-sm text-gray-600 mb-1">
+
+              {/* EMAIL */}
+              <div className="mb-2 text-left">
+
+                <label
+                  htmlFor="email"
+                  className="block text-sm text-gray-600 mb-1"
+                >
                   Email
                 </label>
+
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
+
+                {getError("email") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {getError("email")}
+                  </p>
+                )}
+
               </div>
-              <p>{getError('email')}</p>
-              <div className="mb-5 text-left">
-                <label htmlFor="password" className="block text-sm text-gray-600 mb-1">
+
+              {/* PASSWORD */}
+              <div className="mb-2 text-left">
+
+                <label
+                  htmlFor="password"
+                  className="block text-sm text-gray-600 mb-1"
+                >
                   Password
                 </label>
+
                 <input
                   type="password"
                   id="password"
+                  name="password"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  
                   className="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
-              </div>
-                <p>{getError('password')}</p>
-              <div className="text-right mb-5">
-               <Link to='/forget'>
-                <a className="text-sm text-black font-semibold hover:underline">
-                  Forgot password?
-                </a>
-                </Link>
+
+                {getError("password") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {getError("password")}
+                  </p>
+                )}
+
               </div>
 
+              {/* FORGOT PASSWORD */}
+              <div className="text-right mb-5">
+
+                <Link
+                  to="/forget"
+                  className="text-sm text-black font-semibold hover:underline"
+                >
+                  Forgot password?
+                </Link>
+
+              </div>
+
+              {/* SIGN IN BUTTON */}
               <button
                 type="submit"
                 className="w-full p-2 bg-green-600 text-white rounded-md text-base hover:bg-green-700 transition-colors"
               >
                 Sign in
               </button>
-              
+
+              {/* SIGN UP */}
               <div className="mt-5 text-sm">
+
                 <p>
-                  Don't have an account?{' '}
-                  <Link to='/signup'>
-                  <a href="#" className="text-black font-semibold hover:underline">
+                  Don't have an account?{" "}
+
+                  <Link
+                    to="/signup"
+                    className="text-black font-semibold hover:underline"
+                  >
                     Sign Up
-                  </a>
                   </Link>
+
                 </p>
+
               </div>
+
             </form>
+
+            {/* RECAPTCHA */}
             <p className="mt-5 text-xs text-gray-600">
-              Protected by reCAPTCHA and subject to the EduFinance{' '}
-              <a href="#" className="text-black font-semibold hover:underline">
+              Protected by reCAPTCHA and subject to the EduFinance{" "}
+
+              <a
+                href="#"
+                className="text-black font-semibold hover:underline"
+              >
                 Privacy Policy
-              </a>{' '}
-              and{' '}
-              <a href="#" className="text-black font-semibold hover:underline">
+              </a>{" "}
+
+              and{" "}
+
+              <a
+                href="#"
+                className="text-black font-semibold hover:underline"
+              >
                 Terms of Service
               </a>.
             </p>
+
           </div>
         </div>
       </div>
